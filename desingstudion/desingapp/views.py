@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from .forms import Registration
+from .forms import LoginForm
 from django.shortcuts import redirect
 from .models import User
-from django.contrib.auth import login
+from django.contrib.auth import authenticate
+from django.contrib import messages
+from django.contrib.auth import login as dj_login
 
 
 def base(request):
@@ -21,11 +24,13 @@ def registration(request):
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.create_user(full_name, username, email, password)
+            user = User.objects.create_user(username, email, password)
+            user.first_name = full_name
             user.save()
-            login(request, user)
-            return redirect('cabinet')
+            dj_login(request, user)
+            return redirect('login')
     else:
         form = Registration()
 
-    return render(request, 'registration/registration.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
+
