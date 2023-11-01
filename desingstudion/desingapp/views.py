@@ -34,3 +34,21 @@ def registration(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                dj_login(request, user)
+                return redirect('cabinet')
+            else:
+                form.add_error(None, 'Неверный логин или пароль')
+    else:
+        form = LoginForm()
+
+
+    return render(request, "registration/login.html", {"form": form})
