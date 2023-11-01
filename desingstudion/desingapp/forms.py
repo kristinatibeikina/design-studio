@@ -26,4 +26,16 @@ class Registration(forms.Form):
             raise ValidationError("Логин не уникален.")
         return username
 
+    def check_password_confirm(self):
+        password = self.cleaned_data['password']
+        password_confirm = self.cleaned_data['password_confirm']
+        if password != password_confirm:
+            raise ValidationError("Пароли не совпадают.")
+        return password_confirm
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Логин (латиница и дефис)', max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Логин'}))
+    password = forms.CharField(label='Пароль', max_length=30, required=True,widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
+
 
