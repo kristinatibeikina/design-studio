@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import re
 
@@ -16,4 +17,13 @@ class Registration(forms.Form):
         if not re.match(r'^[а-яА-Я\s-]+$', full_name):
             raise ValidationError("ФИО может содержать только кириллические буквы, дефис и пробелы.")
         return full_name
+
+    def check_username(self):
+        username = self.cleaned_data['username']
+        if not re.match(r'^[a-zA-Z-]+$', username):
+            raise ValidationError("Логин может содержать только латиницу и дефис.")
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Логин не уникален.")
+        return username
+
 
