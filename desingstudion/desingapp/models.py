@@ -10,10 +10,10 @@ class User(AbstractUser):
     email = models.CharField(max_length=254, verbose_name='Почта', unique=True, blank=False)
     password = models.CharField(max_length=254, verbose_name='Пароль', blank=False)
 
-    USERNAME_FIELD = 'username'
-
     def full_name(self):
         return ' '.join([self.surname, self.name, self.patronymic])
 
     def __str__(self):
         return self.full_name()
+
+
