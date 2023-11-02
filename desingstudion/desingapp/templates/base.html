@@ -8,12 +8,12 @@
             <h1>Design.pro</h1>
         {% if user.is_authenticated %}
             <a href="{% url 'application'%}">Просмотр заявок</a><br>
-            <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
-            <a href="">Выход</a>
+              <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
+              <a href="">Выход</a>
         {% else %}
           <ul class="sidebar-nav">
               <a href="{% url 'application'%}">Просмотр заявок</a><br>
-            <a href="{% url 'registration'%}">Регистрация</a>
+            <a href="{% url 'registration'%}">Регистрация</a><br>
             <a href="{% url 'login'%}">Авторизация</a>
 
           </ul>
@@ -40,13 +40,13 @@
     <div class="pagination">
       <span class="page-links">
         {% if page_obj.has_previous %}
-          <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+          <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Назад</a>
         {% endif %}
         <span class="page-current">
           Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
         {% if page_obj.has_next %}
-          <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+          <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Вперед</a>
         {% endif %}
       </span>
     </div>

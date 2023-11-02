@@ -29,18 +29,17 @@ class Application(models.Model):
     date = models.DateTimeField(verbose_name='Время создания заявки', auto_now_add=True)
     status = models.CharField(max_length=254, default='Новая')
 
-
     def validate_image(fieldfile_obj):
         filesize = fieldfile_obj.file.size
         megabyte_limit = 2.0
         if filesize > megabyte_limit * 1024 * 1024:
             raise ValidationError("Размер превышает %sMB" % str(megabyte_limit))
 
-    photo_file = models.ImageField(max_length=254, upload_to='images', blank=False, validators=[validate_image, FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
+    photo_file = models.ImageField(max_length=254, upload_to='images', blank=False,
+                                   validators=[validate_image, FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
 
     def get_absolute_url(self):
         return reverse('application_list', args=[str(self.id)])
-
 
     def __str__(self):
         return f'{self.name} ({self.date})'
