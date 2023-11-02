@@ -1,6 +1,7 @@
 from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
+from .models import Application
 import re
 
 
@@ -11,12 +12,21 @@ class Registration(forms.Form):
     password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
     password_confirm = forms.CharField(label='Повторите пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'}))
     agree_to_processing = forms.BooleanField(label='Согласие на обработку персональных данных', required=True)
+    error_css_class = "error"
+    required_css_class = "field"
 
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name']
         if not re.match(r'^[а-яА-Я\s-]+$', full_name):
             raise ValidationError("ФИО может содержать только кириллические буквы, дефис и пробелы.")
         return full_name
+
+    def clean_password_confirm(self):
+        password = self.cleaned_data['password']
+        password_confirm = self.cleaned_data['password_confirm']
+        if password != password_confirm:
+            self.add_error('', "Пароли не совподают!")
+        return password_confirm
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -26,19 +36,13 @@ class Registration(forms.Form):
             raise ValidationError("Логин не уникален.")
         return username
 
-    def clean_password_confirm(self):
-        password = self.cleaned_data['password']
-        password_confirm = self.cleaned_data['password_confirm']
-        if password != password_confirm:
-            self.add_error('', "Пароли не совподают!")
-        return password_confirm
     class Meta:
         model = User
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Логин (латиница и дефис)', max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Логин'}))
-    password = forms.CharField(label='Пароль', max_length=30, required=True,widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
+    password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
 
 
 
