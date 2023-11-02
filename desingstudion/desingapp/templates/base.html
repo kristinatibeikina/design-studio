@@ -5,13 +5,53 @@
 
 <body>
     {% block sidebar %}
-      <ul class="sidebar-nav">
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="">All books</a></li>
-        <li><a href="">All authors</a></li>
-      </ul>
+            <h1>Design.pro</h1>
+        {% if user.is_authenticated %}
+            <a href="{% url 'application'%}">Просмотр заявок</a><br>
+            <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
+            <a href="">Выход</a>
+        {% else %}
+          <ul class="sidebar-nav">
+              <a href="{% url 'application'%}">Просмотр заявок</a><br>
+            <a href="{% url 'registration'%}">Регистрация</a>
+            <a href="{% url 'login'%}">Авторизация</a>
+
+          </ul>
+        {% endif %}
     {% endblock %}
-  {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
-  {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+{% block content %}
+
+    {% if application_list %}
+    <h1>Список заявок</h1>
+
+      {% for ap in application_list %}
+        <ul>
+            <li>{{ap.date}}</li>
+            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a> ({{ap.category}}))</li>
+            <img src="{{ ap.photo_file.url }}">
+        </ul>
+      {% endfor %}
+
+    {% endif %}
+{% endblock %}
+
+{% block pagination %}
+  {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+          <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
+{% endblock %}
+
 </body>
 </html>
