@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
-
+from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     name = models.CharField(max_length=254, verbose_name='ФИО', blank=False)
@@ -28,6 +29,9 @@ class Application(models.Model):
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(verbose_name='Время создания заявки', auto_now_add=True)
     status = models.CharField(max_length=254, default='Новая')
+
+    def get_absolute_url(self):
+        return reverse('application_list', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.name} ({self.date})'
