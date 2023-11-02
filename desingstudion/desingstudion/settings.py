@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 from django.core.management.commands.runserver import Command as runserver
 
@@ -126,6 +126,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'desingapp.User'
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOOT = os.path.join(BASE_DIR, 'media/')
 
 
 runserver.default_port='8080'
