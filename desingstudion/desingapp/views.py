@@ -2,10 +2,11 @@ from django.shortcuts import render
 from .forms import Registration
 from .forms import LoginForm
 from django.shortcuts import redirect
-from .models import User
+from .models import User, Application
 from django.contrib.auth import authenticate
-from django.contrib import messages
 from django.contrib.auth import login as dj_login
+from django.views import generic
+from django.views.generic import ListView
 
 
 def base(request):
@@ -24,7 +25,7 @@ def registration(request):
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(username, email,password)
             user.first_name = full_name
             user.save()
             dj_login(request, user)
@@ -50,3 +51,12 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, "registration/login.html", {"form": form})
+
+
+class ApplicationListView(generic.ListView):
+    model = Application
+    paginate_by = 4
+    template_name = 'base.html'
+
+
+
