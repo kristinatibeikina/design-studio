@@ -59,4 +59,8 @@ class ApplicationListView(generic.ListView):
     template_name = 'base.html'
 
 
+def logout(request):
+    return render(request, "logout.html",)
+
+
 

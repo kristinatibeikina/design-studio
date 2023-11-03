@@ -9,7 +9,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'application'%}">Просмотр заявок</a><br>
               <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
-              <a href="">Выход</a>
+              <a href="{% url 'logout'%}">Выход</a>
         {% else %}
           <ul class="sidebar-nav">
               <a href="{% url 'application'%}">Просмотр заявок</a><br>

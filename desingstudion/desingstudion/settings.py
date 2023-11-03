@@ -56,7 +56,7 @@ ROOT_URLCONF = 'desingstudion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,5 +132,5 @@ MEDIA_URL = 'media/'
 MEDIA_ROOOT = os.path.join(BASE_DIR, 'media/')
 
 
-runserver.default_port='8080'
+runserver.default_port = '8080'
 
