@@ -66,7 +66,7 @@ def logout(request):
 
 class ApplicationCreate(CreateView):
     model = Application
-    fields = ['name', 'description', 'category', 'photo_file ']
+    fields = ['name', 'description', 'category', 'photo_file']
     template_name = 'main_request.html'
 
 
