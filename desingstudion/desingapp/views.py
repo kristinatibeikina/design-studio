@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as dj_login
 from django.views import generic
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 def base(request):
@@ -61,6 +62,16 @@ class ApplicationListView(generic.ListView):
 
 def logout(request):
     return render(request, "logout.html",)
+
+
+class ApplicationCreate(CreateView):
+    model = Application
+    fields = ['name', 'description', 'category', 'photo_file ']
+    template_name = 'main_request.html'
+
+
+def requestmain(request):
+    return render(request, "main_request.html",)
 
 
 
