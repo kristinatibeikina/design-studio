@@ -7,7 +7,8 @@ urlpatterns = [
     path('cabinet/', views.cabinet, name='cabinet'),
     path('registration/', views.registration, name='registration'),
     path('login/', views.login, name='login'),
-    url('application/', views.ApplicationListView.as_view(), name='application'),
+    url('application_list/', views.ApplicationListView.as_view(), name='base'),
     path('logout/', views.logout, name='logout'),
-    url('main_request/', views.ApplicationCreate.as_view(), name='main_request'),
+    path('main_request/', views.ApplicationCreate.as_view(), name='main_request'),
+    path('request/', views.MyPostListViews.as_view(), name='user_posts'),
 ]
