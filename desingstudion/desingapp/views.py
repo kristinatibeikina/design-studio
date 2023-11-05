@@ -8,7 +8,8 @@ from django.contrib.auth import login as dj_login
 from django.views import generic
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, Http404
 
 def base(request):
     return render(request, "base.html",)
@@ -68,10 +69,37 @@ class ApplicationCreate(CreateView):
     model = Application
     fields = ['name', 'description', 'category', 'photo_file']
     template_name = 'main_request.html'
+    success_url = reverse_lazy('main_request')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 def requestmain(request):
     return render(request, "main_request.html",)
+
+
+
+
+
+class MyPostListViews(generic.ListView):
+    model = Application
+    context_object_name = 'posts'
+    template_name = 'reguest_user.html'
+    success_url = reverse_lazy('main_request')
+
+    def get_queryset(self):
+        return Application.objects.filter(user=self.request.user).order_by('-date')
+
+
+
+
+
+
+
+
+
 
 
 

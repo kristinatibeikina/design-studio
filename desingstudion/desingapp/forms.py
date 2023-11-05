@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User, Application
 from django.core.exceptions import ValidationError
 import re
 
@@ -42,6 +42,8 @@ class Registration(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(label='Логин (латиница и дефис)', max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Логин'}))
     password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
+
+
 
 
 

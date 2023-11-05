@@ -1,0 +1,14 @@
+<h1>Мои запросы</h1>
+<a href="{% url 'cabinet'%}">Личный кабинет</a><br>
+{% if posts %}
+    {% for post in posts %}
+        <h3>{{ post.user }}</h3>
+        <p>{{ post.date }}</p>
+        <p>{{ post.name }}</p>
+        <p>{{ post.description }}</p>
+        <p>{{ post.category }}</p>
+        <p>{{ post.status }}</p>
+    {% endfor %}
+ {% else %}
+    <p>Вы ещё не созали заявок</p>
+{% endif %}
