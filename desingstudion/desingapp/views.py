@@ -84,30 +84,6 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def requestmain(request):
-    return render(request, "main_request.html",)
-
-
-class MyPostListViews(generic.ListView):
-    model = Application
-    context_object_name = 'posts'
-    template_name = 'reguest_user.html'
-    success_url = reverse_lazy('main_request')
-
-    def get_queryset(self):
-        return Application.objects.filter(user=self.request.user).order_by('-date')
-
-
-
-class ApplicationDelete(DeleteView):
-    model = Application
-    context_object_name = 'posts'
-    template_name = 'application_confirm_delete.html'
-    success_url = reverse_lazy('user_posts')
-
-
-
-
 
 
 
