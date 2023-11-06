@@ -1,7 +1,0 @@
-{% if request.user == request.user %}
-    <form method="post" action="{% url 'delete_request' request.pk %}">
-        {% csrf_token %}
-        <button type="submit" >Удалить заявку</button>
-    </form>
-{% endif %}
-

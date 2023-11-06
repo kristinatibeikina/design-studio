@@ -1,13 +1,14 @@
 <h1>Мои запросы</h1>
 <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
 {% if posts %}
-    {% for post in posts %}
-        <h3>{{ post.user }}</h3>
-        <p>{{ post.date }}</p>
-        <p>{{ post.name }}</p>
-        <p>{{ post.description }}</p>
-        <p>{{ post.category }}</p>
-        <p>{{ post.status }}</p>
+    {% for i in posts %}
+        <h3>{{ i.name }}</h3>
+        <p>{{ i.date }}</p>
+        <p>{{ i.description }}</p>
+        <p>{{ i.category }}</p>
+        <p>{{ i.status }}</p>
+         <img src="{{ i.photo_file.url}}" width="400px", height="350px"><br>
+<a href="{% url 'application_delete' i.id %}">Удалить</a><br><br>
     {% endfor %}
  {% else %}
     <p>Вы ещё не созали заявок</p>
