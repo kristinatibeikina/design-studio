@@ -7,12 +7,14 @@
     {% block sidebar %}
             <h1>Design.pro</h1>
         {% if user.is_authenticated %}
-            <a href="{% url 'application'%}">Просмотр заявок</a><br>
+            <a href="{% url 'application_list'%}">Просмотр заявок</a><br>
+            <a href="{% url 'user_posts' %}">Просмотр своих заявок</a><br>
               <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
+                <a href="{% url 'registration'%}">Регистрация</a><br>
               <a href="{% url 'logout'%}">Выход</a>
         {% else %}
           <ul class="sidebar-nav">
-              <a href="{% url 'application'%}">Просмотр заявок</a><br>
+              <a href="{% url 'application_list'%}">Просмотр заявок</a><br>
             <a href="{% url 'registration'%}">Регистрация</a><br>
             <a href="{% url 'login'%}">Авторизация</a>
 
@@ -20,19 +22,21 @@
         {% endif %}
     {% endblock %}
 {% block content %}
-
-    {% if application_list %}
+{% if application_list %}
     <h1>Список заявок</h1>
+    <h2>Количество заявок, находящихся в статусе «Принято в работу»: {{ num_application }}</h2><br>
 
       {% for ap in application_list %}
         <ul>
             <li>{{ap.date}}</li>
-            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a> ({{ap.category}}))</li>
-            <img src="{{ ap.photo_file.url }}">
+            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</li>
+            <img src="{{ ap.photo_file.url}}" width="400px", height="350px">
+
         </ul>
       {% endfor %}
 
     {% endif %}
+
 {% endblock %}
 
 {% block pagination %}
