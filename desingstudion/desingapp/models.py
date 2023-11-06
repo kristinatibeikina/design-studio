@@ -31,7 +31,6 @@ class Application(models.Model):
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(verbose_name='Время создания заявки', auto_now_add=True)
-    status = models.CharField(max_length=254, default='Новая')
 
     def validate_image(fieldfile_obj):
         filesize = fieldfile_obj.file.size
@@ -39,7 +38,7 @@ class Application(models.Model):
         if filesize > megabyte_limit * 1024 * 1024:
             raise ValidationError("Размер превышает %sMB" % str(megabyte_limit))
 
-    photo_file = models.ImageField(max_length=254, upload_to='images/', blank=False,
+    photo_file = models.ImageField(max_length=254, upload_to='media/', blank=False,
                                    validators=[validate_image, FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
 
     REQUEST_STATUS = (

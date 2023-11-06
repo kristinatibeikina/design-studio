@@ -60,6 +60,11 @@ class ApplicationListView(generic.ListView):
     template_name = 'base.html'
     context_object_name = 'application_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['num_application'] = Application.objects.filter(status__exact='Принято в работу').count()
+        return context
+
     def get_queryset(self):
         return Application.objects.filter(status__exact='Выполнено').order_by('-date')[:4]
 
@@ -92,6 +97,13 @@ class MyPostListViews(generic.ListView):
     def get_queryset(self):
         return Application.objects.filter(user=self.request.user).order_by('-date')
 
+
+
+class ApplicationDelete(DeleteView):
+    model = Application
+    context_object_name = 'posts'
+    template_name = 'application_confirm_delete.html'
+    success_url = reverse_lazy('user_posts')
 
 
 
