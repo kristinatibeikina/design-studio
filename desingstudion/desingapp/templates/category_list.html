@@ -1,0 +1,13 @@
+
+{% if category_list %}
+    <h1>Категории заявок</h1>
+        <a href="{% url 'base'%}">Вернуться обратно</a><br>
+      {% for ap in category_list %}
+        <ul>
+            <li>{{ap.name}}</li>
+            <a href="{% url 'category_delete' ap.id %}">Удалить</a><br><br>
+        </ul>
+      {% endfor %}
+ {% else %}
+        <p>Категорий нет</p>
+    {% endif %}

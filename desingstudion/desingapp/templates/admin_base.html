@@ -1,0 +1,35 @@
+{% block content %}
+{% if application_list %}
+    <h1>Список заявок</h1>
+    <h2>Количество заявок, находящихся в статусе «Принято в работу»: {{ num_application }}</h2><br>
+
+      {% for ap in application_list %}
+        <ul>
+            <li>{{ap.date}}</li>
+            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</li>
+            <img src="{{ ap.photo_file.url}}" width="400px", height="350px">
+
+        </ul>
+      {% endfor %}
+
+    {% endif %}
+
+{% endblock %}
+
+{% block pagination %}
+  {% if is_paginated %}
+    <div class="pagination">
+      <span class="page-links">
+        {% if page_obj.has_previous %}
+          <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Назад</a>
+        {% endif %}
+        <span class="page-current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+          <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Вперед</a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
+{% endblock %}
