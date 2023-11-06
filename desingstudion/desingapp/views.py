@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import Registration
 from .forms import LoginForm, ChangeStatusRequest
 from django.shortcuts import redirect
-from .models import User, Application
+from .models import User, Application,  Category
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as dj_login
 from django.views import generic
@@ -112,12 +112,6 @@ class ApplicationDelete(DeleteView):
     success_url = reverse_lazy('user_posts')
 
 
-class ApplicationDelete(UpdateView):
-    model = Application
-    context_object_name = 'posts'
-    template_name = 'application_confirm_delete.html'
-    success_url = reverse_lazy('user_posts')
-
 
 
 
@@ -133,6 +127,10 @@ class ApplicationListViewAdmin(generic.ListView):
         return Application.objects.order_by('-date')[:4]
 
 
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'category_list.html'
+    context_object_name = 'category_list'
 
 
 
