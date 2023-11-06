@@ -9,7 +9,7 @@ from django.views import generic
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def base(request):
     return render(request, "base.html",)
@@ -57,15 +57,18 @@ def login(request):
 
 class ApplicationListView(generic.ListView):
     model = Application
-    paginate_by = 4
     template_name = 'base.html'
+    context_object_name = 'application_list'
+
+    def get_queryset(self):
+        return Application.objects.filter(status__exact='Выполнено').order_by('-date')[:4]
 
 
 def logout(request):
     return render(request, "logout.html",)
 
 
-class ApplicationCreate(CreateView):
+class ApplicationCreate(LoginRequiredMixin, CreateView):
     model = Application
     fields = ['name', 'description', 'category', 'photo_file']
     template_name = 'main_request.html'
@@ -78,9 +81,6 @@ class ApplicationCreate(CreateView):
 
 def requestmain(request):
     return render(request, "main_request.html",)
-
-
-
 
 
 class MyPostListViews(generic.ListView):
