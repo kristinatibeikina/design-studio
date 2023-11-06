@@ -132,6 +132,10 @@ class CategoryListView(generic.ListView):
     template_name = 'category_list.html'
     context_object_name = 'category_list'
 
-
+class CategoryDelete(DeleteView):
+    model = Category
+    context_object_name = 'category_list'
+    template_name = 'category_confirm_delete.html'
+    success_url = reverse_lazy('category_list')
 
 
