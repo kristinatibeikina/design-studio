@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import Registration
-from .forms import LoginForm
+from .forms import LoginForm, ChangeStatusRequest
 from django.shortcuts import redirect
 from .models import User, Application
 from django.contrib.auth import authenticate
@@ -10,6 +10,8 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 
 def base(request):
     return render(request, "base.html",)
@@ -48,8 +50,10 @@ def login(request):
             if user is not None:
                 dj_login(request, user)
                 return redirect('cabinet')
+
             else:
                 form.add_error(None, 'Неверный логин или пароль')
+
     else:
         form = LoginForm()
     return render(request, "registration/login.html", {"form": form})
@@ -67,6 +71,8 @@ class ApplicationListView(generic.ListView):
 
     def get_queryset(self):
         return Application.objects.filter(status__exact='Выполнено').order_by('-date')[:4]
+
+
 
 
 def logout(request):
@@ -106,9 +112,25 @@ class ApplicationDelete(DeleteView):
     success_url = reverse_lazy('user_posts')
 
 
+class ApplicationDelete(UpdateView):
+    model = Application
+    context_object_name = 'posts'
+    template_name = 'application_confirm_delete.html'
+    success_url = reverse_lazy('user_posts')
 
 
 
+
+
+
+
+class ApplicationListViewAdmin(generic.ListView):
+    model = Application
+    template_name = 'base.html'
+    context_object_name = 'application_list'
+
+    def get_queryset(self):
+        return Application.objects.order_by('-date')[:4]
 
 
 
