@@ -84,6 +84,26 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+def requestmain(request):
+    return render(request, "main_request.html",)
+
+
+class MyPostListViews(generic.ListView):
+    model = Application
+    context_object_name = 'posts'
+    template_name = 'reguest_user.html'
+    success_url = reverse_lazy('main_request')
+
+    def get_queryset(self):
+        return Application.objects.filter(user=self.request.user).order_by('-date')
+
+
+
+
+
+
+
+
 
 
 
