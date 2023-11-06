@@ -99,7 +99,11 @@ class MyPostListViews(generic.ListView):
 
 
 
-
+class ApplicationDelete(DeleteView):
+    model = Application
+    context_object_name = 'posts'
+    template_name = 'application_confirm_delete.html'
+    success_url = reverse_lazy('user_posts')
 
 
 
