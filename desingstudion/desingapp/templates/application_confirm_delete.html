@@ -2,17 +2,15 @@
 
 <h1>Удалить заявку</h1>
 
+{% if posts.status == "Новая" %}
+  <p>Вы уверены, что хотите удалить заявку: {{ posts.name }}?</p>
 
-{% if application.status == 'Новая'%}
-<p>Вы точно хотите удалить заявку: {{ application.name }}?</p>
   <form action="" method="POST">
-    {% csrf_token %}
-
-    <input type="submit" action="" value="Да, удалить">
-  </form>
-{% else %}
-<p>Вы не можете удалить</p>
+  {% csrf_token %}
+  <input type="submit" action="" value="Да, удалить">
+{%else%}
+  <p>Вы не можете удалить</p>
 {% endif %}
-
+</form>
 
 {% endblock %}
