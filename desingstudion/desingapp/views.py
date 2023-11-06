@@ -115,6 +115,21 @@ class ApplicationDelete(DeleteView):
 
 
 
+def change_status(request):
+    application = Application.objects.get(id)
+
+    if request.method == 'POST':
+        form = ChangeStatusRequest(request.POST, instance=application)
+        if form.is_valid():
+            if application.status == 'Новая' and form.cleaned_data['status'] == 'Выполнено' and not form.cleaned_data['photo_file']:
+                form.add_error('Вы не вставили новое изображение')
+            else:
+                form.save()
+                return render(request, 'change_status.html')
+    else:
+        form = ChangeStatusRequest(instance=application)
+
+        return render(request, 'change_status.html', {'form': form, 'application': application})
 
 
 
@@ -138,4 +153,10 @@ class CategoryDelete(DeleteView):
     template_name = 'category_confirm_delete.html'
     success_url = reverse_lazy('category_list')
 
+
+class CategoryCreate(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'category_do.html'
+    success_url = reverse_lazy('category_list')
 
