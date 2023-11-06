@@ -28,7 +28,7 @@ class Category(models.Model):
 class Application(models.Model):
     name = models.CharField(max_length=254, verbose_name='Название заявки', blank=False)
     description = models.TextField(max_length=1000, verbose_name='Описание', blank=False)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(verbose_name='Время создания заявки', auto_now_add=True)
 
