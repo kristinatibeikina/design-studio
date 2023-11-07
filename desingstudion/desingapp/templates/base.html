@@ -7,12 +7,13 @@
     {% block sidebar %}
             <h1>Design.pro</h1>
         {% if user.username == 'admin'%}
-            <h2>Понель администратора</h2>
+            <h2>Страница администратора</h2>
             <a href="{% url 'admin_list'%}">Просмотр заявок потльзователей</a><br>
             <a href="{% url 'category_list'%}">Категории</a><br>
             <a href="{% url 'logout'%}">Выход</a><br>
         {% else %}
             {% if user.is_authenticated %}
+                <a href="{% url 'application_list'%}">Просмотр заявок</a><br>
                 <a href="{% url 'user_posts' %}">Просмотр своих заявок</a><br>
                   <a href="{% url 'cabinet'%}">Личный кабинет</a><br>
                     <a href="{% url 'registration'%}">Регистрация</a><br>
@@ -30,15 +31,24 @@
     {% endblock %}
 {% block content %}
 {% if application_list %}
-    <h1>Список заявок пользователей</h1>
+        {% if user.username == 'admin'%}
+            <h1>Список заявоaк пользователей</h1>
+        {% else %}
+            <h1>Список заявок</h1>
+            <h2>Количество заявок, находящихся в статусе «Принято в работу»: {{ num_application }}</h2><br>
+        {% endif %}
       {% for ap in application_list %}
-        <ul>
-            <li>{{ap.date}}</li>
-            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</li>
-            <img src="{{ ap.photo_file.url}}" width="400px", height="350px">
-            <a href="{% url 'change_status' %}">Сменить статус</a><br><br>
 
-        </ul>
+        <ul>
+            <p>{{ap.date}} <br> <a> {{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</p>
+            <img src="{{ ap.photo_file.url}}" width="400px", height="350px"><br>
+            {% if user.username == 'admin'%}
+                {% if ap.status == 'Новая' %}
+                    <a href="{% url 'change_status' ap.id %}">Сменить статус</a>
+                {% endif %}
+            {% endif %}
+
+        </ul><br><br><br>
       {% endfor %}
 
     {% endif %}
