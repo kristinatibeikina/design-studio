@@ -146,5 +146,5 @@ class ChangeStatusRequest(UpdateView):
     model = Application
     form_class = ChangeStatusRequest
     template_name = 'change_status.html'
-    success_url = reverse_lazy('base')
+    success_url = reverse_lazy('admin_list')
 

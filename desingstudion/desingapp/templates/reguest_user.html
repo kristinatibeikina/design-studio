@@ -1,5 +1,5 @@
 <h1>Мои запросы</h1>
-<a href="{% url 'cabinet'%}">Личный кабинет</a><br>
+<a href="{% url 'cabinet'%}">Личный кабинет</a><br><br><br>
 <form method="get" >
     <label for="status">Статус</label>
     <select name="status">
@@ -9,7 +9,7 @@
         <option value="Выполнено">Выполнено</option>
     </select>
     <input type="submit" value="Применить фильтр">
-</form>
+</form><br><br>
 {% if posts %}
     {% for i in posts %}
         <h3>{{ i.name }}</h3>
