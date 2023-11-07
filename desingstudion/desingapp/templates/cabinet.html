@@ -5,10 +5,14 @@
     <title>Django на METANIT.COM</title>
 </head>
 <body>
-    <h1>Личный кабинет</h1>
-     <a href="{% url 'base'%}">Перейти на главную страницу</a><br>
-    <a href="{% url 'main_request' %}">Создать заявку</a><br>
-    <a href="{% url 'user_posts' %}">Просмотр своих заявок</a><br>
-     <a href="{% url 'logout' %}">Выход</a>
+    {% if user.username == 'admin'%}
+        <a href="{% url 'base'%}">Перейти на главную страницу</a><br
+    {% else %}
+        <h1>Личный кабинет</h1>
+         <a href="{% url 'base'%}">Перейти на главную страницу</a><br>
+        <a href="{% url 'main_request' %}">Создать заявку</a><br>
+        <a href="{% url 'user_posts' %}">Просмотр своих заявок</a><br>
+         <a href="{% url 'logout' %}">Выход</a>
+    {% endif %}
 </body>
 </html>
