@@ -73,8 +73,6 @@ class ApplicationListView(generic.ListView):
         return Application.objects.filter(status__exact='Выполнено').order_by('-date')[:4]
 
 
-
-
 def logout(request):
     return render(request, "logout.html",)
 
@@ -101,8 +99,11 @@ class MyPostListViews(generic.ListView):
     success_url = reverse_lazy('main_request')
 
     def get_queryset(self):
-        return Application.objects.filter(user=self.request.user).order_by('-date')
-
+        status = self.request.GET.get('status')
+        queryset = Application.objects.filter(user=self.request.user).order_by('-date')
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
 
 
 class ApplicationDelete(DeleteView):
@@ -110,27 +111,6 @@ class ApplicationDelete(DeleteView):
     context_object_name = 'posts'
     template_name = 'application_confirm_delete.html'
     success_url = reverse_lazy('user_posts')
-
-
-
-
-
-def change_status(request):
-    application = Application.objects.get(id)
-
-    if request.method == 'POST':
-        form = ChangeStatusRequest(request.POST, instance=application)
-        if form.is_valid():
-            if application.status == 'Новая' and form.cleaned_data['status'] == 'Выполнено' and not form.cleaned_data['photo_file']:
-                form.add_error('Вы не вставили новое изображение')
-            else:
-                form.save()
-                return render(request, 'change_status.html')
-    else:
-        form = ChangeStatusRequest(instance=application)
-
-        return render(request, 'change_status.html', {'form': form, 'application': application})
-
 
 
 class ApplicationListViewAdmin(generic.ListView):
@@ -147,6 +127,7 @@ class CategoryListView(generic.ListView):
     template_name = 'category_list.html'
     context_object_name = 'category_list'
 
+
 class CategoryDelete(DeleteView):
     model = Category
     context_object_name = 'category_list'
@@ -159,4 +140,11 @@ class CategoryCreate(CreateView):
     fields = ['name']
     template_name = 'category_do.html'
     success_url = reverse_lazy('category_list')
+
+
+class ChangeStatusRequest(UpdateView):
+    model = Application
+    form_class = ChangeStatusRequest
+    template_name = 'change_status.html'
+    success_url = reverse_lazy('base')
 
