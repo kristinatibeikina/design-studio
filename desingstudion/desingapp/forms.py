@@ -44,8 +44,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
 
 
-
-
 class ChangeStatusRequest(forms.ModelForm):
     comment = forms.CharField(required=False)
     img = forms.ImageField(required=False)
